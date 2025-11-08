@@ -1,12 +1,20 @@
 #include <arpa/inet.h>
 #include <errno.h>
 #include <stdio.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
 
 #define PORT 8080
+#define BUFFER_SIZE 1024
 
 int main() {
+  char buffer[BUFFER_SIZE];
+  char resp[] = "HTTP/1.0 200 OK\r\n"
+                "Server: webserver-c\r\n"
+                "Content-type: text/html\r\n\r\n"
+                "<html>hello, world</html>\r\n";
+
   // 1. Create a socket (socket file descriptor)
   // SOCK_STREAM = TCP
   // TODO: man socket
@@ -56,6 +64,22 @@ int main() {
     }
     printf("connection accepted\n");
 
+    // 5 read request
+    // read -> read up to count bytes from file descriptor into buffer pointer
+    int valread = read(newsockfd, buffer, BUFFER_SIZE);
+    if (valread < 0) {
+      perror("webserver (read)");
+      continue;
+    }
+
+    printf("Request:\n%s", buffer);
+
+    // 6 write response to the socket
+    int valwrite = write(newsockfd, resp, strlen(resp));
+    if (valwrite < 0) {
+      perror("webserver (write)");
+      continue;
+    }
     close(newsockfd);
   }
 
