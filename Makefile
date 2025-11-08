@@ -1,5 +1,5 @@
 run:
-	cc src/utils/* src/logger.c src/http/*  src/core/* main.c -o bin/server
+	cc src/utils/* src/logger.c src/http/*  src/core/* server.c -o bin/server
 	./bin/server
 
 ab:
