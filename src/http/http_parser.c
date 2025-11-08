@@ -1,4 +1,3 @@
-#include <endian.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,6 +6,7 @@
 
 #include "../../include/conf.h"
 #include "../../include/http/http.h"
+#include "../../include/endian.h"
 
 void free_http_request(struct HTTP_REQUEST *http_request);
 

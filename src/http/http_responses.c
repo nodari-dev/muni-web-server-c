@@ -1,4 +1,4 @@
-#include "../../include/http/http_reponses.h"
+#include "../../include/http/http_responses.h"
 
 char *gen_http_resp(enum HTTP_STATUS_CODES code, char *body) {
   // TODO: CALCULATE CONTENT LEN
