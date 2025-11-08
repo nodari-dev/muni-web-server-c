@@ -1,6 +1,3 @@
-v1: 
-	cc version_1.c
+run: 
+	cc server.c
 	./a.out
-
-check: 
-	lsof -i :8080
