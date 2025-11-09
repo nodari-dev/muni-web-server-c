@@ -10,6 +10,7 @@
 
 void free_http_request(struct HTTP_REQUEST *http_request);
 
+// NOTE 10. HTTP parser
 HTTP_REQUEST *parse_http_request(char *buffer) {
   if (!buffer) {
 	  printf("Buffer not found\n");
@@ -23,7 +24,7 @@ HTTP_REQUEST *parse_http_request(char *buffer) {
     return NULL;
   }
 
-  // METHOD
+// NOTE 11. METHOD  parser
   size_t method_len = strcspn(buffer, " ");
   if (memcmp(buffer, "POST", strlen("POST")) == 0) {
     http_request->method = POST;
@@ -43,7 +44,7 @@ HTTP_REQUEST *parse_http_request(char *buffer) {
   // move to the next item
   buffer += method_len + 1;
 
-  // URI
+  // NOTE: 12. URI aka endpoint
   size_t uri_len = strcspn(buffer, " ");
   http_request->uri = malloc(uri_len + 1);
   if (!http_request->uri) {
@@ -58,7 +59,7 @@ HTTP_REQUEST *parse_http_request(char *buffer) {
   // move to the next item
   buffer += uri_len + 1;
 
-  // VERSION
+  // NOTE: 13. HTTP version
   size_t version_len = strcspn(buffer, "\r\n");
   http_request->version = malloc(version_len + 1);
   if (!http_request->version) {
@@ -71,7 +72,7 @@ HTTP_REQUEST *parse_http_request(char *buffer) {
   http_request->version[version_len] = '\0';
   buffer += version_len + 2;
 
-  // HEADERS
+  // NOTE: 14. HTTP headers
   struct HTTP_HEADER *current_http_header = NULL, *last_http_header = NULL;
 
   while (buffer[0] != '\r' || buffer[1] != '\n') {
@@ -123,7 +124,7 @@ HTTP_REQUEST *parse_http_request(char *buffer) {
   // skip line which separates headers and body
   buffer += 2;
 
-  // BODY
+  // NOTE: 15. HTTP body
   size_t body_len = strlen(buffer);
   if (body_len != 0) {
     http_request->body = (char *)malloc(body_len * sizeof(char));

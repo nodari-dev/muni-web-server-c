@@ -5,6 +5,7 @@
 
 #include "../include/logger.h"
 
+// NOTE: 23. logger
 char* log_enum_to_string(enum LOG_TYPE log_type) {
   switch (log_type) {
     case INFO: return "INFO";

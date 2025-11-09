@@ -9,6 +9,7 @@
 #include "../../include/conf.h"
 #include "../../include/core/request_queue.h"
 
+// Note: 23. Read request to allocate correct amount of memory for request
 char *read_request(int client_socket_fd) {
   char *buffer = malloc(sizeof(char) * BUFFER_FOR_READ);
   int total_buffer_size = 0;

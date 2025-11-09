@@ -9,6 +9,7 @@
 #define MIN_FULLFILMENT_PERSENTAGE 20
 #define MAX_FULLFILMENT_PERSENTAGE 80
 
+// NOTE: 16. rounter using hashmap
 Node *create_node(char *key) {
   Node *h_item = malloc(sizeof(Node));
   if (h_item == NULL) {
@@ -62,6 +63,7 @@ void resize_or_skip(Hashmap *hmap) {
   }
 }
 
+// NOTE: 17. creation of endpoint
 void add_endpoint(struct Router *r, enum HTTP_METHOD method, char *path,
                   char *(*handle_response)()) {
 
@@ -93,6 +95,8 @@ void add_endpoint(struct Router *r, enum HTTP_METHOD method, char *path,
   current_node->call_methods[method] = handle_response;
 }
 
+// NOTE: 18. endpoint call
+// we split URI by '/' and move through hashmap by hashing each part
 char *call_endpoint(struct Router *r, struct HTTP_REQUEST *req) {
   char *buffer = strdup(req->uri);
   char *token;

@@ -12,6 +12,7 @@
 
 void *worker_thread(void *args);
 
+// NOTE: 20. Thread pool
 TPL *init_thread_pool(Worker_Args *args) {
   TPL *pool = (TPL *)malloc(sizeof(TPL));
   if (pool == NULL) {
@@ -31,6 +32,8 @@ TPL *init_thread_pool(Worker_Args *args) {
 
 void shutdown_thread_pool(TPL *pool) {}
 
+// NOTE: 21. Worker thread
+// Works with file descriptor
 void *worker_thread(void *args) {
   Worker_Args *worker_args = (Worker_Args *)args;
   Q *request_queue = worker_args->q;
@@ -67,9 +70,10 @@ void *worker_thread(void *args) {
         // TODO: ADD 500
       }
 
+      // Note: 22. Endpoint call
       char *response_end = call_endpoint(router, http_request);
       char response[2048];
-	  // check size if out of bounds or should be smaller
+      // check size if out of bounds or should be smaller
       sprintf(response, "%s", response_end);
       int write_res = write(client_socket_fd, response, strlen(response));
       if (write_res == -1) {

@@ -9,26 +9,28 @@
 #include "../../include/conf.h"
 #include "../../include/core/core.h"
 #include "../../include/http/http.h"
-#include "../../include/utils/string_builder.h"
 #include "../../include/logger.h"
+#include "../../include/utils/string_builder.h"
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
-Serv* init_service(){
-	Serv* ws = (Serv*)malloc(sizeof(Serv));
-	if(ws == NULL){
-		perror("web service init");
-		exit(1);
-	}
+// NOTE: 4. initialization of service
+Serv *init_service() {
+  Serv *ws = (Serv *)malloc(sizeof(Serv));
+  if (ws == NULL) {
+    perror("web service init");
+    exit(1);
+  }
 
-	Router* router = init_router();
-	ws->router = router;
+  Router *router = init_router();
+  ws->router = router;
 
-	return ws;
+  return ws;
 }
 
-void start_service(Serv* service) {
+// NOTE: 5. main start function
+void start_service(Serv *service) {
   struct sockaddr_in host_address;
   host_address.sin_family = AF_INET;
   host_address.sin_port = htons(PORT);
@@ -46,14 +48,14 @@ void start_service(Serv* service) {
   }
 
   if (listen(server_socket_fd, SOMAXCONN) == FAILED) {
-    perror("Socket listen \n");
+    perror("Couldn't set locket in listen state \n");
     exit(1);
   }
 
-  // Request queue
+  // NOTE: 6. Request queue init
   Q *request_queue = createQueue();
-  
-  // Multithread
+
+  // NOTE: 7 Multithread init
   Worker_Args *worker_args = (Worker_Args *)malloc(sizeof(Worker_Args));
   if (worker_args == NULL) {
     perror("Worker_Args malloc");
@@ -75,7 +77,6 @@ void start_service(Serv* service) {
   char port_str[5];
   sprintf(port_str, "%d", PORT);
   append_chars(sb, port_str);
-  // Logger
   log_data(INFO, sb->buf);
   free_string_builder(sb);
 
@@ -92,9 +93,10 @@ void start_service(Serv* service) {
       continue;
     }
 
-	// Add request to request queue
+    // NOTE: 8. Request added to request queue
     pthread_mutex_lock(&mutex);
     enque(request_queue, client_socket_fd);
+    // NOTE: 9. Notify other threads about new items in queue
     pthread_cond_signal(&cond);
     pthread_mutex_unlock(&mutex);
   }
