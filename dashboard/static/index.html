@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Mini Kibana (Go)</title>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+  </style>
+</head>
+<body>
+  <h2>Mini Kibana Logs</h2>
+  <table>
+    <thead><tr><th>Time</th><th>Method</th><th>Path</th></tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    async function loadLogs() {
+      const res = await fetch("/logs");
+      const logs = await res.json();
+      const rows = logs.map(l => 
+        `<tr><td>${l.time}</td><td>${l.method}</td><td>${l.path}</td></tr>`
+      ).join("");
+      document.querySelector("tbody").innerHTML = rows;
+    }
+    setInterval(loadLogs, 1000);
+    loadLogs();
+  </script>
+</body>
+</html>
+
