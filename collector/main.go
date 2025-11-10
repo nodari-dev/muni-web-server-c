@@ -18,7 +18,8 @@ type LogEntry struct {
 }
 
 func main() {
-	db, _ := sql.Open("sqlite3", "./logs.db")
+	fmt.Println("Collector started")
+	db, _ := sql.Open("sqlite3", "logs.db")
 	defer db.Close()
 
 	db.Exec(`CREATE TABLE IF NOT EXISTS logs (
@@ -30,17 +31,19 @@ func main() {
 
 	lastSize := int64(0)
 	for {
-		info, err := os.Stat("../app/app.log")
+		info, err := os.Stat("app.log")
 		if err != nil {
 			time.Sleep(1 * time.Second)
+			fmt.Println("Could not find app.log file")
 			continue
 		}
 		if info.Size() == lastSize {
+			fmt.Println("No changes")
 			time.Sleep(1 * time.Second)
 			continue
 		}
 
-		file, _ := os.Open("../app/app.log")
+		file, _ := os.Open("app.log")
 		file.Seek(lastSize, 0)
 		scanner := bufio.NewScanner(file)
 		for scanner.Scan() {

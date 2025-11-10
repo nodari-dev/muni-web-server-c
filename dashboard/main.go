@@ -17,10 +17,10 @@ type LogEntry struct {
 }
 
 func main() {
-	db, _ := sql.Open("sqlite3", "../logs.db")
+	db, _ := sql.Open("sqlite3", "logs.db")
 	defer db.Close()
 
-	http.Handle("/", http.FileServer(http.Dir("./static")))
+	http.Handle("/", http.FileServer(http.Dir("dashboard/static/")))
 
 	http.HandleFunc("/logs", func(w http.ResponseWriter, r *http.Request) {
 		rows, _ := db.Query("SELECT time, method, path, body FROM logs ORDER BY time DESC LIMIT 50")
