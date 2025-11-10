@@ -44,8 +44,7 @@ int main() {
 
   // 3. set socket in a 'listen state'
   // TODO: man listen
-  // NOTE: SOMAXCONN -> max length of the queue of pending connections for our
-  // TCP socket
+  // NOTE: SOMAXCONN -> max length of the queue of pending connections for our TCP socket
   if (listen(sockfd, SOMAXCONN) != 0) {
     perror("webserver (listen)");
     return 1;
@@ -56,6 +55,7 @@ int main() {
   // TODO: man accept
   // TODO: man close
   while (1) {
+	// NOTE: every time we accept the connection -> new socket is created
     int newsockfd = accept(sockfd, (struct sockaddr *)&host_addr,
                            (socklen_t *)&host_addrlen);
     if (newsockfd < 0) {
