@@ -6,7 +6,7 @@
 char *get_new_article_name() {
   return "HTTP/1.1 200 OK\r\n"
          "Content-Type: text/html; charset=UTF-8\r\n"
-         "Content-Length: 57\r\n"
+         "Content-Length: 56\r\n"
          "\r\n"
          "<h1>Top 10 reasons why it sucks to be Front-End dev</h1>";
 }

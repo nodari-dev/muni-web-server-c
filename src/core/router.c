@@ -64,6 +64,7 @@ void resize_or_skip(Hashmap *hmap) {
 }
 
 // NOTE: 17. creation of endpoint
+// we split URI by '/' and move through hashmap by hashing each part
 void add_endpoint(struct Router *r, enum HTTP_METHOD method, char *path,
                   char *(*handle_response)()) {
 
