@@ -70,7 +70,7 @@ void *worker_thread(void *args) {
         // TODO: ADD 500
       }
 
-      // Note: 22. Endpoint call
+      // NOTE: 22. Endpoint call
       char *response_end = call_endpoint(router, http_request);
       char response[2048];
       // check size if out of bounds or should be smaller

@@ -10,7 +10,7 @@
 
 void free_http_request(struct HTTP_REQUEST *http_request);
 
-// NOTE 10. HTTP parser
+// NOTE: 10. HTTP parser
 HTTP_REQUEST *parse_http_request(char *buffer) {
   if (!buffer) {
 	  printf("Buffer not found\n");
@@ -24,7 +24,7 @@ HTTP_REQUEST *parse_http_request(char *buffer) {
     return NULL;
   }
 
-// NOTE 11. METHOD  parser
+// NOTE: 11. METHOD  parser
   size_t method_len = strcspn(buffer, " ");
   if (memcmp(buffer, "POST", strlen("POST")) == 0) {
     http_request->method = POST;

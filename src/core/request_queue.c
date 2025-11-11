@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "../../include/core/request_queue.h"
 
-// Note: 19. Request queue
+// NOTE: 19. Request queue
 Q *createQueue() {
   Q *queue = (Q *)malloc(sizeof(Q));
   if (queue == NULL) {
